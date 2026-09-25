@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kelola User — D' CopynPrint</title>
+<link rel="stylesheet" href="../CSS/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="main-col">
+      <div class="topbar-mini" id="topbarMini"></div>
+
+      <div class="wrap" style="max-width:920px;">
+        <p class="eyebrow">Panel developer</p>
+        <h1>Kelola User</h1>
+        <p class="sub">Ubah role, blokir (ban), atau hapus akun siapa pun.</p>
+
+        <input type="text" id="userSearch" placeholder="Cari username atau email...">
+        <div class="user-mgmt-list" id="userRows"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="confirmModal">
+    <div class="modal-box" style="max-width:380px;">
+      <h3 id="confirmTitle">Konfirmasi</h3>
+      <p id="confirmBody"></p>
+      <div class="modal-actions">
+        <button class="btn btn-outline" id="confirmCancelBtn">Batal</button>
+        <button class="btn btn-stamp" id="confirmOkBtn">Ya, lanjutkan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- modal: benerin kapitalisasi/ejaan field "username" (bukan nama
+       tampilan) langsung ke dokumen Firestore-nya, tanpa perlu buka
+       Firebase Console manual -->
+  <div class="modal-backdrop hidden" id="editUsernameModal">
+    <div class="modal-box" style="max-width:380px;">
+      <h3>Edit username</h3>
+      <p class="sub" style="margin-top:-4px;">Cuma benerin kapitalisasi/ejaan field username di database. Ini BEDA sama "Nama tampilan" (yang muncul gede di profil) — dan tidak mempengaruhi login (login tetap pakai username lama, huruf besar/kecil sama-sama diterima).</p>
+      <label for="editUsernameInput">Username</label>
+      <input type="text" id="editUsernameInput" placeholder="mis. Satya" autocapitalize="off" autocorrect="off" spellcheck="false">
+      <div class="error-msg" id="editUsernameErr"></div>
+      <div class="modal-actions">
+        <button class="btn btn-outline" id="editUsernameCancelBtn" type="button">Batal</button>
+        <button class="btn btn-primary" id="editUsernameSaveBtn" type="button">Simpan</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="bubbleMenuRoot"></div>
+  <script type="module" src="../JS/users.js"></script>
+</body>
+</html>

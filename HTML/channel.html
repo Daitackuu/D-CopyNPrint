@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Channel — D' CopynPrint</title>
+<link rel="stylesheet" href="../CSS/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="main-col">
+      <div class="topbar-mini" id="topbarMini"></div>
+
+      <div class="wrap channel-wrap">
+        <a href="community.html" class="job-meta channel-back-link"><img src="../Resources/Icons/Back.png" alt="Kembali" class="icon-img icon-sm"> Kembali ke daftar channel</a>
+        <div class="channel-head-row">
+          <div class="channel-head-identity">
+            <span class="channel-avatar-lg" id="channelAvatarWrap"><span class="channel-hash-icon lg">#</span></span>
+            <div style="min-width:0;">
+              <p class="eyebrow" style="margin:0 0 4px;">Channel</p>
+              <h1 id="channelName">Memuat…</h1>
+              <p class="sub" id="channelDesc" style="margin:2px 0 0;"></p>
+            </div>
+          </div>
+          <div class="channel-owner-actions hidden" id="channelOwnerActions">
+            <button class="btn btn-outline btn-sm" id="editChannelBtn"><img src="../Resources/Icons/Edit.png" alt="Edit" class="icon-img icon-sm"> Edit Saluran</button>
+            <button class="btn btn-outline btn-sm" id="manageMembersBtn"><img src="../Resources/Icons/Members.png" alt="Anggota" class="icon-img icon-sm"> Kelola Anggota</button>
+            <button class="btn btn-stamp btn-sm" id="deleteChannelBtn"><img src="../Resources/Icons/Trash.png" alt="Hapus" class="icon-img icon-sm"> Hapus Saluran</button>
+          </div>
+        </div>
+
+        <div class="ticket channel-chat-box">
+          <div id="channelMsgs" class="channel-msgs"><div class="empty-state">Memuat pesan…</div></div>
+          <div class="chat-input-row" style="margin-top:12px;">
+            <input type="text" id="channelInput" placeholder="Tulis pesan ke channel ini…">
+            <button class="btn btn-primary" id="channelSendBtn">Kirim</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- modal: kelola anggota (khusus pemilik channel) -->
+  <div class="modal-backdrop hidden" id="membersModal">
+    <div class="modal-box" style="max-width:440px;max-height:80vh;overflow-y:auto;">
+      <h3>Kelola Anggota</h3>
+      <p class="sub" style="margin-bottom:14px;">Klik nama/foto anggota buat lihat profilnya. Kick keluarin sementara (bisa gabung lagi), Ban blokir permanen dari saluran ini.</p>
+      <div id="membersList"></div>
+      <div class="modal-actions" style="margin-top:16px;">
+        <button class="btn btn-outline" id="membersCloseBtn">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- modal: edit saluran (khusus pemilik channel) -->
+  <div class="modal-backdrop hidden" id="editChannelModal">
+    <div class="modal-box" style="max-width:420px;">
+      <h3>Edit Saluran</h3>
+      <p class="sub" style="margin-bottom:14px;">Ubah nama, deskripsi, dan foto saluran ini.</p>
+
+      <div class="avatar-edit-wrap" id="editChannelAvatarWrap" style="margin:0 auto 16px;">
+        <span class="channel-hash-icon lg" id="editChannelAvatarPreview" style="width:88px;height:88px;font-size:32px;">#</span>
+        <div class="avatar-edit-overlay">Ganti foto</div>
+      </div>
+      <input type="file" id="editChannelAvatarInput" accept="image/*" class="hidden">
+
+      <label for="editChannelNameInput">Nama channel</label>
+      <input type="text" id="editChannelNameInput" placeholder="mis. Tips Print Hemat">
+      <label for="editChannelDescInput">Deskripsi</label>
+      <input type="text" id="editChannelDescInput" placeholder="Ngobrolin apa di sini?">
+      <div class="error-msg" id="editChannelErr"></div>
+      <div class="modal-actions" style="margin-top:16px;">
+        <button class="btn btn-outline" id="editChannelCancel">Batal</button>
+        <button class="btn btn-primary" id="editChannelSubmit">Simpan</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="../JS/channel.js"></script>
+</body>
+</html>

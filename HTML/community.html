@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Community — D' CopynPrint</title>
+<link rel="stylesheet" href="../CSS/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="main-col">
+      <div class="topbar-mini" id="topbarMini"></div>
+
+      <div class="wrap">
+        <p class="eyebrow">Komunitas</p>
+        <h1>Channel D' CopynPrint</h1>
+        <p class="sub">Gabung ke channel yang ada, atau buat channel baru buat ngobrol bareng.</p>
+
+        <div class="search-box">
+          <input type="text" id="channelSearch" placeholder="Cari channel…">
+        </div>
+
+        <button class="btn btn-primary" id="createChannelBtn" style="margin-bottom:20px;"><img src="../Resources/Icons/Plus.png" alt="Buat" class="icon-img"> Buat channel</button>
+
+        <div id="channelList"><div class="empty-state">Memuat channel…</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="createChannelModal">
+    <div class="modal-box">
+      <h3>Buat channel baru</h3>
+      <label for="channelNameInput">Nama channel</label>
+      <input type="text" id="channelNameInput" placeholder="mis. Tips Print Hemat">
+      <label for="channelDescInput">Deskripsi (opsional)</label>
+      <input type="text" id="channelDescInput" placeholder="Ngobrolin apa di sini?">
+      <div class="error-msg" id="createChannelErr"></div>
+      <div class="modal-actions" style="margin-top:16px;">
+        <button class="btn btn-outline" id="createChannelCancel">Batal</button>
+        <button class="btn btn-primary" id="createChannelSubmit">Buat</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="../JS/community.js"></script>
+</body>
+</html>

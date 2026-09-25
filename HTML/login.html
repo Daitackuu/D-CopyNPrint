@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Masuk — D' CopynPrint</title>
+<link rel="stylesheet" href="../CSS/style.css">
+</head>
+<body>
+  <div class="center-screen">
+    <div style="width:100%;max-width:380px;">
+      <div class="brand" style="justify-content:center;margin-bottom:26px;">
+        <span class="dot"></span> D' COPYNPRINT
+      </div>
+
+      <div class="ticket">
+        <p class="eyebrow" id="formEyebrow">Masuk</p>
+        <h1 id="formTitle" style="font-size:22px;">Masuk ke akunmu</h1>
+        <p class="sub" style="margin-bottom:18px;">Login dulu sebelum bisa upload file untuk diprint.</p>
+
+        <form id="loginForm">
+          <label for="username">Username</label>
+          <input type="text" id="username" placeholder="usernamekamu" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false">
+
+          <div id="emailWrap" class="hidden">
+            <label for="emailInput">Email</label>
+            <input type="email" id="emailInput" placeholder="emailkamu@contoh.com" autocomplete="email">
+          </div>
+
+          <label for="password">Password</label>
+          <div class="password-field-wrap">
+            <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
+            <button type="button" class="password-toggle-btn" id="passwordToggleBtn" aria-label="Tampilkan password">
+              <img id="passwordToggleIcon" src="../Resources/Icons/Eye.png" alt="">
+            </button>
+          </div>
+
+          <div id="webIdWrap" class="hidden">
+            <button type="button" class="webid-toggle-btn" id="webIdToggleBtn">
+              <span>Kode Web ID (opsional)</span>
+              <span class="webid-toggle-arrow" id="webIdToggleArrow">▾</span>
+            </button>
+            <div class="webid-collapse" id="webIdCollapse">
+              <input type="text" id="webId" placeholder="Kosongkan jika tidak memiliki Web ID" autocomplete="off">
+            </div>
+          </div>
+
+          <div class="error-msg" id="errMsg"></div>
+
+          <!-- type="submit" + dibungkus <form> di atas -> nge-enter di field
+               manapun di dalam form ini otomatis "klik" tombol ini. -->
+          <button type="submit" class="btn btn-primary btn-block" id="submitBtn" style="margin-top:14px;">Masuk</button>
+        </form>
+
+        <p class="sub" style="text-align:center;margin:16px 0 0;">
+          <span id="toggleText">Belum punya akun?</span>
+          <a href="#" id="toggleMode" style="color:var(--stamp);font-weight:600;text-decoration:none;">Daftar</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { auth } from "../JS/firebase-config.js";
+    import {
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+    import {
+      ensureUserDoc, roleFromWebID, normalizeUsername, isValidUsername, usernameToEmail,
+      rememberAccount
+    } from "../JS/app.js";
+
+    // Kalau ternyata sudah login, tidak perlu lihat form ini lagi.
+    // PENTING: kalau lagi proses submit (daftar/masuk) sendiri, JANGAN
+    // redirect dari sini — biarkan handler submitBtn di bawah yang urus
+    // navigasinya SETELAH ensureUserDoc() selesai. Kalau tidak, ada race
+    // condition: begitu createUserWithEmailAndPassword() bikin sesi baru,
+    // listener ini bisa langsung lompat ke home.html DULUAN sebelum baris
+    // "await ensureUserDoc(cred.user, role, ...)" di bawah sempat jalan —
+    // akibatnya dokumen user kepaksa dibuat home.js dengan role default
+    // "customer", padahal kode Web ID yang diisi seharusnya kasih role
+    // "printer"/"developer". Ini penyebab bug "daftar pakai kode Web ID
+    // tapi kok jadi customer".
+    let isSubmitting = false;
+    onAuthStateChanged(auth, (user) => {
+      if (user && !isSubmitting) window.location.replace("home.html");
+    });
+
+    // Kalau baru saja auto-logout gara-gara akun di-ban developer
+    // (lihat requireAuth() di app.js), tampilkan pesannya di sini.
+    if (new URLSearchParams(window.location.search).get("banned") === "1") {
+      document.getElementById("errMsg").textContent =
+        "Akun kamu diblokir oleh developer. Hubungi Kontak CS kalau ini kesalahan.";
+    }
+
+    let mode = "login"; // atau "signup"
+    const usernameEl = document.getElementById("username");
+    const emailWrap = document.getElementById("emailWrap");
+    const emailInputEl = document.getElementById("emailInput");
+    const passEl = document.getElementById("password");
+    const webIdEl = document.getElementById("webId");
+    const webIdWrap = document.getElementById("webIdWrap");
+    const webIdToggleBtn = document.getElementById("webIdToggleBtn");
+    const webIdCollapse = document.getElementById("webIdCollapse");
+    const webIdToggleArrow = document.getElementById("webIdToggleArrow");
+    const errEl = document.getElementById("errMsg");
+    const submitBtn = document.getElementById("submitBtn");
+    const loginForm = document.getElementById("loginForm");
+    const toggleMode = document.getElementById("toggleMode");
+    const toggleText = document.getElementById("toggleText");
+    const formTitle = document.getElementById("formTitle");
+    const formEyebrow = document.getElementById("formEyebrow");
+    const passwordToggleBtn = document.getElementById("passwordToggleBtn");
+    const passwordToggleIcon = document.getElementById("passwordToggleIcon");
+
+    // ---- tombol show/hide password (ikon doang, tanpa teks) ----
+    // File ikonnya ditaruh di Resources/Icons/ (Eye.png = mata terbuka,
+    // dipakai saat password lagi disembunyikan; Eye-Off.png = mata
+    // tercoret, dipakai saat password lagi ditampilkan sebagai teks).
+    passwordToggleBtn.addEventListener("click", () => {
+      const showing = passEl.type === "text";
+      passEl.type = showing ? "password" : "text";
+      passwordToggleIcon.src = showing ? "../Resources/Icons/Eye.png" : "../Resources/Icons/Eye-Off.png";
+      passwordToggleBtn.setAttribute("aria-label", showing ? "Tampilkan password" : "Sembunyikan password");
+    });
+
+    // ---- kolom Web ID: state awal disembunyikan (collapsed), diklik dulu
+    // panahnya baru kolomnya kebuka dengan animasi slide-down ----
+    webIdToggleBtn.addEventListener("click", () => {
+      const isOpen = webIdCollapse.classList.toggle("open");
+      webIdToggleArrow.classList.toggle("open", isOpen);
+    });
+
+    toggleMode.addEventListener("click", (e) => {
+      e.preventDefault();
+      setMode(mode === "login" ? "signup" : "login");
+    });
+
+    // Dipakai baik oleh klik link "Daftar"/"Masuk" DI ATAS, MAUPUN dipanggil
+    // sekali di awal kalau halaman ini dibuka dengan "?mode=signup" di URL
+    // (dipakai tombol "Keluar" di halaman Profil — lihat js/profile.js —
+    // biar orang yang klik Keluar langsung diarahkan ke form Daftar, bukan
+    // form Masuk seperti biasanya).
+    function setMode(next) {
+      mode = next;
+      const isSignup = mode === "signup";
+      formEyebrow.textContent = isSignup ? "Daftar" : "Masuk";
+      formTitle.textContent = isSignup ? "Buat akun baru" : "Masuk ke akunmu";
+      submitBtn.textContent = isSignup ? "Daftar" : "Masuk";
+      toggleText.textContent = isSignup ? "Sudah punya akun?" : "Belum punya akun?";
+      toggleMode.textContent = isSignup ? "Masuk" : "Daftar";
+      webIdWrap.classList.toggle("hidden", !isSignup);
+      emailWrap.classList.toggle("hidden", !isSignup);
+      // Setiap balik ke mode Daftar, kolom Web ID mulai collapsed lagi.
+      webIdCollapse.classList.remove("open");
+      webIdToggleArrow.classList.remove("open");
+      webIdEl.value = "";
+      errEl.textContent = "";
+    }
+
+    if (new URLSearchParams(window.location.search).get("mode") === "signup") {
+      setMode("signup");
+    }
+
+    function friendlyError(code) {
+      const map = {
+        "auth/user-not-found": "Username belum terdaftar.",
+        "auth/wrong-password": "Password salah.",
+        "auth/invalid-credential": "Username atau password salah.",
+        "auth/email-already-in-use": "Username sudah dipakai, coba yang lain atau langsung masuk.",
+        "auth/weak-password": "Password minimal 6 karakter."
+      };
+      return map[code] || "Terjadi kesalahan, coba lagi.";
+    }
+
+    // Dibungkus <form id="loginForm"> di HTML + tombol submitBtn
+    // type="submit" -> nge-enter di field manapun (username/email/
+    // password/webId) otomatis trigger event "submit" ini juga, bukan
+    // cuma pas tombolnya diklik pakai mouse.
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      errEl.textContent = "";
+      const isSignup = mode === "signup";
+      const username = normalizeUsername(usernameEl.value);
+      // Kapitalisasi ASLI yang diketik user (mis. "Satya", bukan "satya") —
+      // dipakai buat DISIMPAN & DITAMPILKAN (profil, @username, dsb).
+      // "username" yang sudah di-lowercase di atas TETAP dipakai buat bikin
+      // email palsu Firebase Auth (login/uniqueness harus case-insensitive),
+      // tapi tidak lagi dipakai sebagai teks yang disimpan ke Firestore.
+      const displayUsername = usernameEl.value.trim();
+      const password = passEl.value;
+      const contactEmail = emailInputEl.value.trim();
+
+      if (!username || !password) {
+        errEl.textContent = "Isi username dan password dulu.";
+        return;
+      }
+      if (!isValidUsername(username)) {
+        errEl.textContent = "Username 3-20 karakter: huruf kecil, angka, titik, atau underscore saja.";
+        return;
+      }
+      if (isSignup && !contactEmail) {
+        errEl.textContent = "Isi email kamu dulu.";
+        return;
+      }
+      if (isSignup && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactEmail)) {
+        errEl.textContent = "Format email tidak valid.";
+        return;
+      }
+
+      const email = usernameToEmail(username);
+      submitBtn.disabled = true;
+      isSubmitting = true;
+      try {
+        let cred;
+        if (isSignup) {
+          cred = await createUserWithEmailAndPassword(auth, email, password);
+          const role = roleFromWebID(webIdEl.value);
+          await ensureUserDoc(cred.user, role, displayUsername, contactEmail);
+        } else {
+          cred = await signInWithEmailAndPassword(auth, email, password);
+          await ensureUserDoc(cred.user, null, displayUsername);
+        }
+        // Catat username ini di daftar "akun yang diingat" browser ini —
+        // dipakai halaman Profil buat nentuin kapan tombol "Switch akun"
+        // perlu ditampilkan (lihat js/app.js#rememberAccount).
+        rememberAccount(username);
+        window.location.href = "home.html";
+      } catch (e) {
+        errEl.textContent = friendlyError(e.code);
+        isSubmitting = false;
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Messages — D' CopynPrint</title>
+<link rel="stylesheet" href="../CSS/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="main-col">
+      <div class="topbar-mini" id="topbarMini"></div>
+
+      <div class="wrap" style="max-width:1100px;">
+        <p class="eyebrow">Pesan</p>
+        <h1>Obrolan langsung</h1>
+        <p class="sub">Chat langsung antar sesama pengguna D' CopynPrint.</p>
+
+        <div class="tabs-row">
+          <button class="tab-btn active" id="tabBtnObrolan" data-tab="obrolan">Obrolan</button>
+          <button class="tab-btn" id="tabBtnTeman" data-tab="teman">Teman <span class="badge hidden" id="friendReqBadge">0</span></button>
+        </div>
+
+        <div id="tabObrolan">
+          <div class="search-box">
+            <input type="text" id="userSearch" placeholder="Cari pengguna buat mulai chat baru (nama atau email)…">
+            <div class="search-results hidden" id="searchResults"></div>
+          </div>
+
+          <div class="chat-layout">
+            <div class="ticket chat-list" id="convList">
+              <div class="empty-state">Memuat percakapan…</div>
+            </div>
+            <div class="ticket chat-pane">
+              <div id="chatHeader" class="chat-header">Pilih percakapan di kiri, atau cari pengguna buat mulai chat baru.</div>
+              <div id="chatMessages" class="chat-messages"></div>
+              <div class="chat-input-row hidden" id="chatInputRow">
+                <input type="text" id="chatInput" placeholder="Tulis pesan…">
+                <button class="btn btn-primary" id="sendBtn">Kirim</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="tabTeman" class="hidden">
+          <div class="search-box">
+            <input type="text" id="addFriendSearch" placeholder="Cari pengguna buat ditambah jadi teman (nama atau email)…">
+            <div class="search-results hidden" id="addFriendResults"></div>
+          </div>
+
+          <div class="ticket">
+            <h2>Permintaan pertemanan masuk</h2>
+            <div id="incomingRequests"><div class="empty-state">Memuat…</div></div>
+          </div>
+          <div class="ticket">
+            <h2>Teman kamu</h2>
+            <div id="friendsList"><div class="empty-state">Memuat…</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="../JS/messages.js"></script>
+</body>
+</html>

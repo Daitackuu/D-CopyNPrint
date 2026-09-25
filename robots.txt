@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /HTML/printer.html
+Disallow: /HTML/users.html
+Disallow: /HTML/printers.html
+
+Sitemap: https://GANTI-DOMAIN-KAMU/sitemap.xml

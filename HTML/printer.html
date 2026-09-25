@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard Operator — D' CopynPrint</title>
+<link rel="stylesheet" href="../CSS/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="main-col">
+      <div class="topbar-mini" id="topbarMini"></div>
+
+      <div class="wrap">
+        <a href="home.html" class="job-meta channel-back-link"><img src="../Resources/Icons/Back.png" alt="Kembali" class="icon-img icon-sm"> Kembali ke Upload</a>
+        <p class="eyebrow" style="margin-top:14px;">Dashboard operator</p>
+        <h1>Antrean file masuk</h1>
+        <p class="sub">Nyalakan status online untuk mulai menerima file dari customer.</p>
+
+        <div class="ticket" style="display:flex;align-items:center;justify-content:space-between;">
+          <div>
+            <div style="font-weight:600;">Status kamu</div>
+            <div class="job-meta" id="statusText">Sedang offline — tidak menerima file baru.</div>
+          </div>
+          <div class="toggle" id="onlineToggle">
+            <div class="toggle-track"></div>
+          </div>
+        </div>
+
+        <div class="ticket" style="background:var(--paper-2);">
+          <div class="job-meta">Total pendapatan (pesanan selesai)</div>
+          <div id="earningsTotal" style="font-size:22px;font-weight:700;">Rp 0</div>
+        </div>
+
+        <div class="ticket">
+          <h2>Pesanan masuk (perlu konfirmasi)</h2>
+          <p class="sub" style="margin-bottom:10px;">Terima buat isi harga & masukin ke antrean, atau Tolak buat dilempar ke operator lain yang online.</p>
+          <div id="pendingList"><div class="empty-state">Belum ada pesanan masuk.</div></div>
+        </div>
+
+        <div class="ticket">
+          <h2>File untuk diprint</h2>
+          <div id="jobList"><div class="empty-state">Belum ada file masuk.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- modal: isi harga pas Terima pesanan -->
+  <div class="modal-backdrop hidden" id="priceModal">
+    <div class="modal-box" style="max-width:380px;">
+      <h3>Terima pesanan</h3>
+      <p class="sub" id="priceModalFileName" style="margin-bottom:14px;"></p>
+      <label for="priceInput">Harga cetak (Rp)</label>
+      <input type="number" id="priceInput" min="0" step="500" placeholder="Contoh: 15000">
+      <div class="error-msg" id="priceErr"></div>
+      <div class="modal-actions" style="margin-top:16px;">
+        <button class="btn btn-outline" id="priceCancelBtn">Batal</button>
+        <button class="btn btn-primary" id="priceConfirmBtn">Terima & masukin antrean</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="../JS/printer.js"></script>
+</body>
+</html>

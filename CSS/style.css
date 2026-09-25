@@ -1,0 +1,1053 @@
+/* ===================================================================
+   D' CopynPrint — design tokens
+   Palette:  --paper #EEF1F5 (bg) · --ink #1B2A4A (primary/text)
+             --stamp #C1443C (accent / status) · --gold #D4A24C (highlight)
+             --ink-soft #52607C (secondary text) · --line #C9D0DE (hairline)
+   Type: display/mono = 'IBM Plex Mono' (dispatch-ticket, dot-matrix feel)
+         body = 'IBM Plex Sans'
+   Signature: the "dispatch stamp" badge + perforated ticket divider
+   =================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+
+:root{
+  --paper:#EEF1F5;
+  --paper-2:#E2E7F0;
+  --ink:#1B2A4A;
+  --ink-soft:#52607C;
+  --stamp:#C1443C;
+  --gold:#D4A24C;
+  --line:#C9D0DE;
+  --white:#FFFFFF;
+  --radius:10px;
+  --mono:'IBM Plex Mono', ui-monospace, monospace;
+  --sans:'IBM Plex Sans', system-ui, sans-serif;
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+  animation:pageFadeIn .28s ease;
+}
+@keyframes pageFadeIn{
+  from{opacity:0;transform:translateY(4px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+a{color:inherit;}
+
+.wrap{
+  max-width:880px;
+  margin:0 auto;
+  padding:36px 28px 80px;
+}
+
+/* ---- top bar ---- */
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:18px 20px;
+  border-bottom:1px solid var(--line);
+  background:var(--white);
+}
+.brand{
+  font-family:var(--mono);
+  font-weight:700;
+  font-size:18px;
+  letter-spacing:.02em;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.brand .dot{width:8px;height:8px;border-radius:50%;background:var(--stamp);display:inline-block;}
+.topbar nav{display:flex;gap:18px;align-items:center;font-size:14px;color:var(--ink-soft);}
+.topbar nav a{text-decoration:none;}
+.topbar nav a:hover{color:var(--ink);}
+.role-pill{
+  font-family:var(--mono);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  background:var(--paper-2);
+  border:1px solid var(--line);
+  padding:3px 9px;
+  border-radius:20px;
+  color:var(--ink-soft);
+}
+
+/* ---- headings ---- */
+h1{
+  font-family:var(--mono);
+  font-size:28px;
+  font-weight:700;
+  letter-spacing:-.01em;
+  margin:0 0 6px;
+}
+h2{
+  font-family:var(--mono);
+  font-size:16px;
+  font-weight:600;
+  margin:0 0 14px;
+  color:var(--ink);
+}
+.eyebrow{
+  font-family:var(--mono);
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  color:var(--stamp);
+  margin:0 0 8px;
+}
+.sub{color:var(--ink-soft);font-size:14px;margin:0 0 28px;}
+
+/* ---- ticket card: the signature element ---- */
+.ticket{
+  position:relative;
+  background:var(--white);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:28px 26px;
+  margin-bottom:22px;
+}
+.ticket::before, .ticket::after{
+  content:"";
+  position:absolute;
+  width:18px;height:18px;
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:50%;
+  top:50%;
+  transform:translateY(-50%);
+}
+.ticket::before{left:-10px;}
+.ticket::after{right:-10px;}
+.ticket .perf{
+  border-top:1px dashed var(--line);
+  margin:20px 0;
+}
+
+/* ---- buttons ---- */
+.btn{
+  font-family:var(--sans);
+  font-weight:600;
+  font-size:14px;
+  border-radius:8px;
+  border:1px solid transparent;
+  padding:12px 20px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  text-decoration:none;
+  transition:transform .08s ease, opacity .15s ease;
+}
+.btn:active{transform:scale(.98);}
+.btn-primary{background:var(--ink);color:var(--white);}
+.btn-primary:hover{opacity:.92;}
+.btn-outline{background:transparent;border-color:var(--line);color:var(--ink);}
+.btn-outline:hover{border-color:var(--ink-soft);}
+.btn-stamp{background:var(--stamp);color:var(--white);}
+.btn-stamp:hover{opacity:.92;}
+.btn-success{background:#3B7A57;color:var(--white);}
+.btn-success:hover{opacity:.92;}
+.btn:disabled{opacity:.5;cursor:not-allowed;}
+.btn-block{width:100%;justify-content:center;}
+
+/* Tombol ikon-doang, persegi (1:1) — dipakai buat aksi cepat kayak
+   Terima/Tolak pesanan & Mulai print/Tandai selesai, biar ringkas
+   (nggak makan tempat kalau banyak tombol berjejer). */
+.btn-icon{
+  width:38px;
+  height:38px;
+  padding:0;
+  flex:0 0 auto;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+.btn-icon .icon-img{width:16px;height:16px;margin:0;}
+
+/* Varian kecil dari .btn-icon di atas — tetap persegi (1:1), cuma
+   ukurannya diperkecil biar serasi kalau ditaruh sebelahan sama tombol
+   kecil lain (mis. "Detail Info" yang pakai .btn-sm), kayak tombol
+   Batal di Riwayat print (js/home.js). */
+.btn-icon.btn-icon-sm{width:30px;height:30px;}
+.btn-icon.btn-icon-sm .icon-img{width:14px;height:14px;}
+
+/* ---- upload control: button + caret dropdown ---- */
+.upload-control{position:relative;display:inline-block;width:100%;}
+.upload-split{
+  display:flex;
+  width:100%;
+}
+.upload-split .btn-primary{
+  flex:1;
+  border-radius:8px 0 0 8px;
+  justify-content:center;
+}
+.caret-btn{
+  width:44px;
+  border-radius:0 8px 8px 0;
+  border-left:1px solid rgba(255,255,255,.25);
+  background:var(--ink);
+  color:var(--white);
+  cursor:pointer;
+  font-size:12px;
+}
+.filetype-menu{
+  position:absolute;
+  top:calc(100% + 6px);
+  right:0;
+  background:var(--white);
+  border:1px solid var(--line);
+  border-radius:8px;
+  box-shadow:0 8px 24px rgba(27,42,74,.12);
+  min-width:220px;
+  display:none;
+  overflow:hidden;
+  z-index:20;
+}
+.filetype-menu.open{display:block;}
+.filetype-menu button{
+  display:block;
+  width:100%;
+  text-align:left;
+  padding:11px 16px;
+  background:none;
+  border:none;
+  font-family:var(--sans);
+  font-size:14px;
+  cursor:pointer;
+  color:var(--ink);
+}
+.filetype-menu button:hover{background:var(--paper);}
+.filetype-menu button .ext{
+  font-family:var(--mono);
+  color:var(--ink-soft);
+  font-size:12px;
+  float:right;
+}
+
+.helper-text{font-size:13px;color:var(--ink-soft);margin-top:10px;}
+
+/* ---- forms ---- */
+label{display:block;font-size:13px;font-weight:600;margin:14px 0 6px;}
+input[type=email],input[type=password],input[type=text]{
+  width:100%;
+  padding:11px 13px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  font-family:var(--sans);
+  font-size:14px;
+  background:var(--white);
+  color:var(--ink);
+}
+input:focus{outline:2px solid var(--ink);outline-offset:1px;}
+
+/* ---- password field dengan tombol show/hide (ikon doang, tanpa teks) ---- */
+.password-field-wrap{position:relative;}
+.password-field-wrap input[type=password],.password-field-wrap input[type=text]{
+  padding-right:42px;
+}
+.password-toggle-btn{
+  position:absolute;
+  right:6px;
+  top:50%;
+  transform:translateY(-50%);
+  width:30px;height:30px;
+  border:none;
+  background:transparent;
+  padding:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  border-radius:6px;
+}
+.password-toggle-btn:hover{background:var(--paper);}
+.password-toggle-btn img{width:18px;height:18px;display:block;}
+
+/* ---- kolom Web ID yang bisa dibuka/tutup (accordion) di form Daftar ---- */
+.webid-toggle-btn{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  width:100%;
+  background:transparent;
+  border:none;
+  padding:14px 0 6px;
+  margin:0;
+  font-size:13px;
+  font-weight:600;
+  color:var(--ink-soft);
+  cursor:pointer;
+  font-family:var(--sans);
+}
+.webid-toggle-btn:hover{color:var(--ink);}
+.webid-toggle-arrow{
+  display:inline-block;
+  transition:transform .2s ease;
+}
+.webid-toggle-arrow.open{transform:rotate(180deg);}
+.webid-collapse{
+  max-height:0;
+  overflow:hidden;
+  opacity:0;
+  transition:max-height .25s ease, opacity .2s ease;
+}
+.webid-collapse.open{max-height:320px;opacity:1;}
+.webid-collapse>input:first-child{margin-top:6px;}
+.webid-collapse label{margin-top:10px;}
+.webid-collapse label:first-child{margin-top:0;}
+
+/* ---- status stamp badge (signature element) ---- */
+.stamp-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-family:var(--mono);
+  font-size:11px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  padding:5px 10px;
+  border-radius:20px;
+  border:1.5px solid currentColor;
+  transform:rotate(-2deg);
+}
+.stamp-queued{color:var(--gold);}
+.stamp-printing{color:var(--ink-soft);}
+.stamp-done{color:#3B7A57;}
+.stamp-waiting{color:var(--stamp);}
+.stamp-cancelled{color:var(--ink-soft);text-decoration:line-through;text-decoration-thickness:1.5px;}
+
+/* ---- job rows ---- */
+.job-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:14px 0;
+  border-bottom:1px solid var(--line);
+}
+.job-row:last-child{border-bottom:none;}
+.job-meta{font-size:13px;color:var(--ink-soft);}
+.job-name{font-weight:600;font-size:14px;}
+
+/* ---- Fase E: kode pesanan pendek & acak (lihat app.js#generateJobCode).
+   Dipakai buat customer/operator saling nyebut satu pesanan tanpa perlu
+   sebut nama file yang bisa panjang/mirip-mirip. ---- */
+.job-code{
+  font-family:var(--mono);
+  font-weight:700;
+  letter-spacing:.02em;
+  color:var(--stamp);
+}
+.job-code-banner{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  padding:14px 18px;
+  margin:14px 0 20px;
+  background:var(--paper-2);
+  border:1px dashed var(--stamp);
+  border-radius:var(--radius);
+}
+.job-code-lg{font-size:19px;}
+
+/* ---- detail pesanan print (job.html): baris label/value ---- */
+.detail-row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px;}
+.detail-row:last-child{border-bottom:none;}
+.detail-row .detail-label{color:var(--ink-soft);}
+.detail-row .detail-value{font-weight:600;text-align:right;}
+
+/* ---- toggle (printer online/offline) ---- */
+.toggle{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  cursor:pointer;
+  user-select:none;
+}
+.toggle-track{
+  width:42px;height:24px;
+  border-radius:20px;
+  background:var(--line);
+  position:relative;
+  transition:background .15s ease;
+}
+.toggle-track::after{
+  content:"";
+  position:absolute;
+  top:3px;left:3px;
+  width:18px;height:18px;
+  border-radius:50%;
+  background:var(--white);
+  transition:left .15s ease;
+}
+.toggle.on .toggle-track{background:#3B7A57;}
+.toggle.on .toggle-track::after{left:21px;}
+
+/* ---- table (admin) ---- */
+table{width:100%;border-collapse:collapse;font-size:14px;}
+th{
+  text-align:left;
+  font-family:var(--mono);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  color:var(--ink-soft);
+  padding:8px 6px;
+  border-bottom:1px solid var(--line);
+}
+td{padding:12px 6px;border-bottom:1px solid var(--line);}
+select{
+  font-family:var(--sans);
+  padding:7px 10px;
+  border-radius:6px;
+  border:1px solid var(--line);
+  background:var(--white);
+}
+
+/* Dropdown ukuran kertas — sengaja dibikin kecil/ngepas isi (bukan
+   full-width kayak input teks lain), soalnya isinya cuma kode ukuran
+   kertas yang pendek (A4, A5, dst), jadi kalau dilebarin penuh malah
+   aneh dan makan tempat percuma. */
+#paperSizeSelect{
+  width:auto;
+  min-width:140px;
+  max-width:220px;
+  display:block;
+}
+
+/* ---- misc ---- */
+.center-screen{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+.error-msg{
+  color:var(--stamp);
+  font-size:13px;
+  margin-top:10px;
+  min-height:16px;
+}
+.empty-state{
+  text-align:center;
+  padding:40px 20px;
+  color:var(--ink-soft);
+  font-size:14px;
+}
+.hidden{display:none !important;}
+.progress-track{
+  width:100%;
+  height:6px;
+  background:var(--paper-2);
+  border-radius:6px;
+  overflow:hidden;
+  margin-top:12px;
+}
+.progress-fill{
+  height:100%;
+  background:var(--stamp);
+  width:0%;
+  transition:width .2s ease;
+}
+
+/* ---- app shell: discord-style left sidebar + slim top strip ---- */
+.app-shell{display:flex;min-height:100vh;align-items:stretch;}
+.sidebar{
+  width:264px;
+  flex:0 0 264px;
+  background:var(--ink);
+  color:var(--paper);
+  display:flex;
+  flex-direction:column;
+  padding:20px 14px;
+  gap:4px;
+  position:sticky;
+  top:0;
+  height:100vh;
+  height:100dvh;
+  overflow-y:auto;
+}
+.sidebar .brand{color:var(--white);padding:8px 10px 20px;font-size:18px;}
+.sidebar .brand .dot{background:var(--gold);}
+.side-link{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 14px;
+  border-radius:8px;
+  text-decoration:none;
+  color:var(--paper-2);
+  font-size:15px;
+  font-weight:500;
+  cursor:pointer;
+  border:none;
+  background:none;
+  width:100%;
+  text-align:left;
+  font-family:var(--sans);
+}
+.side-link:hover{background:rgba(255,255,255,.08);color:var(--white);}
+.side-link.active{background:var(--stamp);color:var(--white);font-weight:600;}
+.side-icon{font-size:18px;width:24px;text-align:center;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;}
+
+/* ---- Fase D: semua emoji diganti gambar (lihat js/app.js#iconImg) ---- */
+.icon-img{width:20px;height:20px;object-fit:contain;vertical-align:middle;display:inline-block;}
+.icon-img.icon-sm{width:16px;height:16px;}
+.icon-img.icon-lg{width:28px;height:28px;}
+.side-icon .icon-img{width:20px;height:20px;}
+.btn .icon-img{width:16px;height:16px;margin-right:2px;}
+.side-spacer{flex:1;}
+.side-role-pill{
+  font-family:var(--mono);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  color:var(--paper-2);
+  padding:4px 12px 10px;
+}
+
+/* ---- panel user bawah sidebar ala Discord: avatar + username + role ---- */
+.sidebar-user-panel{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px;
+  margin-top:6px;
+  border-radius:10px;
+  background:rgba(255,255,255,.06);
+  text-decoration:none;
+  color:var(--white);
+  transition:background .15s ease;
+}
+.sidebar-user-panel:hover, .sidebar-user-panel.active{background:rgba(255,255,255,.14);}
+.sidebar-user-panel .avatar-circle{flex-shrink:0;}
+.sidebar-user-panel-info{min-width:0;flex:1;}
+.sidebar-user-panel-name{font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sidebar-user-panel-role{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--paper-2);opacity:.8;}
+
+.main-col{flex:1;min-width:0;display:flex;flex-direction:column;}
+
+/* ---- slim top strip: only avatar + "Profil" ---- */
+.topbar-mini{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  padding:16px 28px;
+  border-bottom:1px solid var(--line);
+  background:var(--white);
+}
+.topbar-mini-link{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  text-decoration:none;
+  color:var(--ink);
+  font-size:14px;
+  font-weight:600;
+  padding:6px 10px;
+  border-radius:20px;
+  border:none;
+  background:transparent;
+  font-family:var(--sans);
+  cursor:pointer;
+}
+.topbar-mini-link:hover{background:var(--paper);}
+.avatar-circle{
+  width:32px;height:32px;
+  border-radius:50%;
+  background:var(--stamp);
+  color:var(--white);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:var(--mono);
+  font-weight:700;
+  font-size:13px;
+  flex-shrink:0;
+}
+.avatar-circle.lg{width:88px;height:88px;font-size:30px;}
+.avatar-circle.sm{width:42px;height:42px;font-size:16px;}
+
+/* ============ Bubble menu mengambang (khusus developer) ============ */
+.dev-bubble-wrap{position:fixed;right:22px;bottom:22px;z-index:80;display:flex;flex-direction:column;align-items:flex-end;gap:12px;}
+.dev-bubble-fab{
+  width:52px;height:52px;border-radius:50%;border:none;background:var(--ink);
+  color:var(--white);font-size:22px;cursor:pointer;box-shadow:0 6px 18px rgba(27,42,74,.35);
+  display:flex;align-items:center;justify-content:center;transition:transform .18s ease, background .18s ease;
+}
+.dev-bubble-fab:hover{background:var(--stamp);}
+.dev-bubble-fab.is-open{transform:rotate(90deg);}
+.dev-bubble-menu{
+  display:flex;flex-direction:column;gap:6px;background:var(--white);border:1px solid var(--line);
+  border-radius:var(--radius);padding:8px;box-shadow:0 10px 30px rgba(27,42,74,.18);min-width:180px;
+  transform-origin:bottom right;
+  animation:bubbleMenuUp .18s cubic-bezier(.2,.8,.3,1);
+}
+.dev-bubble-menu.hidden{display:none;}
+@keyframes bubbleMenuUp{
+  from{opacity:0;transform:translateY(10px) scale(.96);}
+  to{opacity:1;transform:translateY(0) scale(1);}
+}
+.dev-bubble-item{
+  display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;
+  text-decoration:none;color:var(--ink);font-size:14px;font-weight:600;transition:background .15s ease;
+}
+.dev-bubble-item:hover{background:var(--paper);}
+
+/* ============ Kelola User (users.html) ============ */
+.user-mgmt-list{display:flex;flex-direction:column;gap:8px;}
+.user-mgmt-row{
+  display:flex;align-items:center;gap:12px;padding:10px 12px;border:1px solid var(--line);
+  border-radius:var(--radius);background:var(--white);
+}
+.user-mgmt-row.is-banned{opacity:.6;background:var(--paper);}
+.user-mgmt-identity{display:flex;align-items:center;gap:12px;flex:1;min-width:0;text-decoration:none;color:var(--ink);}
+.user-mgmt-identity:hover .user-mgmt-name{text-decoration:underline;}
+.user-mgmt-info{flex:1;min-width:0;}
+.user-mgmt-name{font-weight:600;font-size:14px;}
+.user-mgmt-email{font-size:12px;color:var(--ink-soft);}
+.user-mgmt-role{padding:6px 8px;border-radius:8px;border:1px solid var(--line);font-family:var(--sans);font-size:13px;}
+.btn-sm{padding:6px 10px;font-size:12px;}
+.ban-badge{color:var(--stamp);font-size:11px;font-weight:700;text-transform:uppercase;}
+
+/* ============ Printers list (printers.html) ============ */
+.printer-list{display:flex;flex-direction:column;gap:8px;}
+.printer-row{
+  display:flex;align-items:center;gap:12px;padding:10px 12px;border:1px solid var(--line);
+  border-radius:var(--radius);background:var(--white);text-decoration:none;color:var(--ink);
+  transition:border-color .15s ease, transform .15s ease;
+}
+.printer-row:hover{border-color:var(--stamp);transform:translateX(2px);}
+.printer-row-info{flex:1;min-width:0;}
+.printer-row-name{font-weight:600;font-size:14px;}
+.status-pill{
+  display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:4px 10px;
+  border-radius:999px;background:var(--paper);color:var(--ink-soft);
+}
+.status-dot{width:8px;height:8px;border-radius:50%;background:var(--ink-soft);flex-shrink:0;}
+.status-pill.is-online{color:#3B7A57;background:rgba(59,122,87,.12);}
+.status-pill.is-online .status-dot{background:#3B7A57;}
+.status-pill.is-offline .status-dot{background:var(--ink-soft);}
+
+/* ---- hamburger button: cuma kelihatan di mobile (lihat media query di
+   bawah), dipasang di topbar-mini sebelah kiri. 3 garis polos pakai CSS,
+   nggak butuh aset ikon. ---- */
+.mobile-menu-btn{
+  display:none;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:4px;
+  width:40px;height:40px;
+  border:none;
+  background:transparent;
+  border-radius:8px;
+  cursor:pointer;
+  flex-shrink:0;
+}
+.mobile-menu-btn:hover{background:var(--paper);}
+.mobile-menu-btn span{
+  display:block;width:20px;height:2px;border-radius:2px;background:var(--ink);
+  transition:transform .2s ease, opacity .2s ease;
+}
+.mobile-menu-btn[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.mobile-menu-btn[aria-expanded="true"] span:nth-child(2){opacity:0;}
+.mobile-menu-btn[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+
+/* ---- backdrop di belakang drawer, dipakai buat nutup drawer pas
+   di-tap (di luar drawer) ---- */
+.sidebar-backdrop{
+  position:fixed;inset:0;
+  background:rgba(20,20,25,.45);
+  z-index:190;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .2s ease;
+}
+.sidebar-backdrop.is-open{opacity:1;pointer-events:auto;}
+
+@media (max-width:760px){
+  .app-shell{flex-direction:column;}
+
+  /* Sidebar TIDAK lagi nempel jadi baris navigasi di atas layar (makan
+     tempat, kepotong-potong pas discroll horizontal). Sekarang jadi
+     drawer yang mengambang di atas konten, disembunyikan di luar layar
+     sampai tombol hamburger di topbar-mini ditekan — ala menu riwayat
+     chat di app Claude versi mobile. */
+  .sidebar{
+    position:fixed;
+    top:0;left:0;
+    width:min(300px,84vw);
+    flex:none;
+    /* 100vh di HP ikut ngitung area yang ketutup address bar browser,
+       jadi lebih tinggi dari layar yang beneran kelihatan -> konten yang
+       nempel di bawah (tombol Masuk/Daftar / panel profil, lewat
+       .side-spacer flex:1) kepotong ke luar layar & baru kelihatan kalau
+       discroll. 100dvh ngikutin tinggi layar YANG BENERAN kelihatan saat
+       itu, jadi drawer selalu pas & gak perlu discroll buat lihat bagian
+       bawahnya. Baris 100vh dibiarin duluan sebagai fallback buat browser
+       lama yang belum kenal dvh (browser gitu bakal skip baris dvh). */
+    height:100vh;
+    height:100dvh;
+    z-index:200;
+    flex-direction:column;
+    align-items:stretch;
+    padding:20px 14px;
+    gap:4px;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    transform:translateX(-100%);
+    transition:transform .25s cubic-bezier(.2,.8,.3,1);
+    box-shadow:10px 0 30px rgba(0,0,0,.25);
+  }
+  .sidebar.is-open{transform:translateX(0);}
+  .sidebar .brand{padding:8px 10px 20px;display:block;}
+  .side-spacer{display:block;}
+  .side-role-pill{display:block;}
+  .side-link{white-space:normal;padding:12px 14px;}
+  .sidebar-user-panel{margin-top:6px;flex-shrink:0;}
+  .sidebar-user-panel-role{display:block;}
+
+  /* Topbar-mini sekarang isinya 2 tombol: hamburger (kiri) & Kontak CS
+     (kanan) — jauh lebih ramping daripada baris nav penuh, jadi lebih
+     banyak ruang layar buat konten halaman. */
+  .topbar-mini{justify-content:space-between;}
+  .mobile-menu-btn{display:flex;}
+}
+
+/* ---- mobile: touch targets, spacing, and layout that needs more than
+   the sidebar/chat rules above to feel native on a phone ---- */
+@media (max-width:600px){
+  .wrap{padding:20px 16px 60px;}
+  h1{font-size:22px;}
+  .ticket{padding:18px 16px;margin-bottom:16px;}
+  .ticket::before,.ticket::after{display:none;}
+  .topbar-mini{padding:12px 16px;}
+
+  .btn,input[type=email],input[type=password],input[type=text],
+  select,.filetype-menu button,.tab-btn{min-height:44px;}
+  .btn{padding:10px 16px;}
+
+  .modal-box{max-width:94vw;padding:20px;}
+  .filetype-menu{left:0;right:0;min-width:0;}
+
+  .profile-head-row{flex-direction:column;align-items:flex-start;gap:12px;}
+  .profile-head-row > div[style]{width:100%;}
+  #profileCard [style*="display:flex"][style*="flex-wrap:wrap"]{width:100%;}
+  #profileCard .btn{flex:1;justify-content:center;}
+
+  .post-grid{gap:10px;}
+
+  .job-row{flex-wrap:wrap;gap:8px;}
+
+  #accountCard div[style*="display:flex"]{flex-direction:column;}
+  #accountCard .btn{width:100%;justify-content:center;}
+
+  .ticket table{display:block;overflow-x:auto;white-space:nowrap;}
+}
+
+/* ---- modal overlay (dipakai upload, buat channel, dst) ---- */
+.modal-backdrop{
+  position:fixed;inset:0;
+  background:rgba(27,42,74,.55);
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+  z-index:100;
+}
+.modal-backdrop.hidden{display:none;}
+/* Animasi masuk buat SEMUA popup/modal di seluruh halaman — otomatis
+   jalan tiap kali class "hidden" dilepas, tanpa perlu ubah JS di
+   halaman mana pun (profile.js, shell.js, home.js, dst semua kepakai). */
+.modal-backdrop:not(.hidden){animation:modalBackdropFadeIn .18s ease;}
+.modal-backdrop:not(.hidden) .modal-box{animation:modalBoxPopIn .22s cubic-bezier(.2,.8,.3,1);}
+@keyframes modalBackdropFadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes modalBoxPopIn{
+  from{opacity:0;transform:translateY(10px) scale(.96);}
+  to{opacity:1;transform:translateY(0) scale(1);}
+}
+.modal-box{
+  background:var(--white);
+  border-radius:var(--radius);
+  padding:26px;
+  max-width:380px;
+  width:100%;
+  box-shadow:0 20px 60px rgba(27,42,74,.25);
+}
+.modal-box h3{font-family:var(--mono);font-size:17px;margin:0 0 10px;}
+.modal-box p{font-size:14px;color:var(--ink-soft);margin:0 0 20px;}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;}
+
+/* ---- popup notif "pesanan belum diterima" (Dashboard Operator) ----
+   Dibikin ringkas lagi (kayak versi awal) — cuma ditambah badge ID
+   kecil per file, jangan sampai toast-nya jadi gede & makan tempat. */
+.pending-toast-wrap{
+  position:fixed;top:20px;right:20px;z-index:110;
+  display:flex;flex-direction:column;gap:10px;max-width:340px;width:calc(100% - 40px);
+}
+.pending-toast{
+  background:var(--white);border:1px solid var(--line);border-left:4px solid var(--stamp);
+  border-radius:var(--radius);box-shadow:0 16px 40px rgba(27,42,74,.22);
+  padding:14px 16px;display:flex;gap:12px;align-items:flex-start;
+  animation:pendingToastIn .22s cubic-bezier(.2,.8,.3,1);
+}
+.pending-toast.is-leaving{animation:pendingToastOut .16s ease forwards;}
+@keyframes pendingToastIn{from{opacity:0;transform:translateX(16px) scale(.98);}to{opacity:1;transform:translateX(0) scale(1);}}
+@keyframes pendingToastOut{from{opacity:1;transform:translateX(0);}to{opacity:0;transform:translateX(16px);}}
+.pending-toast-icon{width:22px;height:22px;flex:none;margin-top:2px;}
+.pending-toast-body{flex:1;min-width:0;}
+.pending-toast-title{font-family:var(--mono);font-weight:700;font-size:14px;margin:0 0 4px;}
+.pending-toast-text{font-size:13px;color:var(--ink-soft);margin:0;line-height:1.5;}
+.pending-toast-filechip{color:var(--ink);font-weight:500;}
+.pending-toast-id{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.02em;
+  color:var(--stamp);background:rgba(193,68,60,.09);border-radius:5px;padding:1px 5px;
+  margin-left:1px;white-space:nowrap;
+}
+.pending-toast-actions{display:flex;gap:8px;margin-top:10px;}
+.pending-toast-actions .btn{padding:7px 12px;font-size:12px;}
+.pending-toast-close{
+  flex:none;border:none;background:transparent;cursor:pointer;color:var(--ink-soft);
+  font-size:16px;line-height:1;padding:2px;border-radius:6px;
+}
+.pending-toast-close:hover{background:var(--paper);color:var(--ink);}
+
+@media (max-width:480px){
+  .pending-toast-wrap{top:12px;right:12px;left:12px;max-width:none;width:auto;}
+}
+
+/* ---- tabs (Pesan: Obrolan / Teman) ---- */
+.tabs-row{display:flex;gap:6px;margin-bottom:20px;border-bottom:1px solid var(--line);}
+.tab-btn{
+  font-family:var(--sans);
+  font-weight:600;
+  font-size:14px;
+  padding:10px 16px;
+  background:none;
+  border:none;
+  border-bottom:2px solid transparent;
+  color:var(--ink-soft);
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.tab-btn:hover{color:var(--ink);}
+.tab-btn.active{color:var(--ink);border-bottom-color:var(--stamp);}
+.badge{
+  background:var(--stamp);
+  color:var(--white);
+  font-family:var(--mono);
+  font-size:11px;
+  font-weight:700;
+  min-width:18px;
+  height:18px;
+  border-radius:9px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 5px;
+}
+
+/* ---- teman: request & friend rows ---- */
+.friend-row{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:10px 0;border-bottom:1px solid var(--line);
+}
+.friend-row:last-child{border-bottom:none;}
+.friend-row-info{display:flex;align-items:center;gap:10px;}
+.friend-row-info a{text-decoration:none;color:var(--ink);font-weight:600;font-size:14px;}
+.friend-row-actions{display:flex;gap:8px;}
+
+/* ---- search box (messages / user search) ---- */
+.search-box{position:relative;margin-bottom:12px;}
+.search-box input{
+  width:100%;
+  padding:10px 13px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  font-family:var(--sans);
+  font-size:14px;
+  background:var(--white);
+  color:var(--ink);
+}
+.search-box input:focus{outline:2px solid var(--ink);outline-offset:1px;}
+.search-results{
+  border:1px solid var(--line);
+  border-radius:8px;
+  margin-top:6px;
+  overflow:hidden;
+}
+.search-result-item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:9px 10px;
+  cursor:pointer;
+  font-size:14px;
+}
+.search-result-item:hover{background:var(--paper);}
+
+/* ---- community: channel directory (ala Discord channel list) ---- */
+.channel-list-row{
+  display:flex;align-items:center;gap:16px;
+  padding:18px 20px;margin-bottom:10px;
+  background:var(--white);border:1px solid var(--line);border-radius:var(--radius);
+  text-decoration:none;color:var(--ink);
+  transition:border-color .15s ease, transform .15s ease, background .15s ease;
+}
+.channel-list-row:hover{border-color:var(--stamp);background:var(--paper);transform:translateX(2px);}
+.channel-hash-icon{
+  width:46px;height:46px;border-radius:50%;background:var(--ink);color:var(--white);
+  display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:700;font-size:16px;
+  flex-shrink:0;
+}
+.channel-hash-icon.lg{width:88px;height:88px;font-size:32px;}
+.channel-list-info{flex:1;min-width:0;}
+.channel-card-name{font-weight:600;font-size:16px;}
+.channel-card-desc{font-size:13.5px;color:var(--ink-soft);margin-top:3px;}
+.channel-open-arrow{color:var(--ink-soft);font-size:20px;flex-shrink:0;}
+
+/* ---- channel chat room ala WhatsApp/Discord (bubble kiri/kanan) ---- */
+.channel-wrap{max-width:960px;}
+.channel-back-link{text-decoration:none;display:inline-flex;align-items:center;gap:6px;}
+.channel-head-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:16px;padding-bottom:20px;border-bottom:1px solid var(--line);}
+.channel-head-identity{display:flex;align-items:center;gap:16px;min-width:0;}
+.channel-head-identity h1{font-size:26px;}
+.channel-owner-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.channel-chat-box{display:flex;flex-direction:column;padding:20px;}
+.channel-msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:14px;padding:12px 8px;min-height:60vh;max-height:calc(100vh - 320px);background:var(--paper);border-radius:8px;}
+.chat-bubble-row{display:flex;align-items:flex-end;gap:10px;max-width:72%;animation:bubbleMenuUp .15s ease;}
+.chat-bubble-row.is-theirs{align-self:flex-start;}
+.chat-bubble-row.is-mine{align-self:flex-end;flex-direction:row-reverse;}
+.chat-avatar-link{flex-shrink:0;line-height:0;}
+.chat-bubble{
+  padding:10px 14px;border-radius:14px;font-size:14.5px;position:relative;
+  background:var(--white);border:1px solid var(--line);
+}
+.chat-bubble-row.is-mine .chat-bubble{background:var(--ink);color:var(--white);border-color:var(--ink);}
+.chat-bubble .msg-author{font-weight:600;font-size:12.5px;display:block;color:var(--stamp);margin-bottom:3px;text-decoration:none;}
+.chat-bubble .msg-author:hover{text-decoration:underline;}
+.chat-bubble .msg-text{white-space:pre-wrap;}
+.chat-bubble .msg-time{display:block;font-size:10.5px;opacity:.65;margin-top:4px;text-align:right;}
+
+
+/* ---- community: posts ---- */
+.post-textarea{
+  width:100%;
+  padding:12px 13px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  font-family:var(--sans);
+  font-size:14px;
+  background:var(--white);
+  color:var(--ink);
+  resize:vertical;
+}
+.post-textarea:focus{outline:2px solid var(--ink);outline-offset:1px;}
+.post-card{margin-bottom:14px;}
+.post-head{display:flex;align-items:center;gap:10px;}
+.post-author{font-weight:600;color:var(--ink);}
+.post-text{font-size:14px;margin:10px 0 14px;white-space:pre-wrap;}
+.post-card-img{width:100%;border-radius:8px;display:block;margin-bottom:12px;cursor:pointer;max-height:420px;object-fit:cover;}
+.post-actions{display:flex;gap:10px;}
+.like-btn[data-liked="true"]{border-color:var(--stamp);color:var(--stamp);}
+.post-compose-bar{
+  width:100%;display:flex;align-items:center;gap:12px;text-align:left;
+  cursor:pointer;font-family:var(--sans);font-size:14px;color:var(--ink-soft);
+  margin-bottom:14px;background:var(--white);
+}
+.post-compose-bar span:not(.plus){flex:1;}
+.post-compose-bar .plus{font-size:20px;color:var(--ink-soft);}
+.post-compose-bar:hover{border-color:var(--ink-soft);}
+
+/* ---- profile ---- */
+#profileCard h1{font-size:22px;}
+.avatar-edit-wrap{position:relative;width:96px;height:96px;flex-shrink:0;cursor:pointer;}
+.avatar-edit-wrap .avatar-circle.lg{width:96px;height:96px;font-size:34px;}
+.status-dot-badge{
+  position:absolute;bottom:2px;right:2px;width:18px;height:18px;border-radius:50%;
+  border:3px solid var(--white);background:var(--ink-soft);
+}
+.status-dot-badge.is-online{background:#3B7A57;}
+.avatar-edit-overlay{
+  position:absolute;inset:0;
+  border-radius:50%;
+  background:rgba(27,42,74,.55);
+  color:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:600;text-align:center;
+  opacity:0;transition:opacity .15s ease;
+}
+.avatar-edit-wrap:hover .avatar-edit-overlay{opacity:1;}
+.profile-head-row{display:flex;gap:20px;align-items:flex-start;}
+
+/* ---- profile: post feed (Discord card + IG media/like) ---- */
+.post-grid{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+/* ---- post detail modal (komentar) ---- */
+.post-detail-img{width:100%;border-radius:8px;margin-bottom:12px;display:block;}
+.post-detail-text{font-size:14px;white-space:pre-wrap;margin:0 0 14px;}
+.comment-list{display:flex;flex-direction:column;gap:10px;margin:14px 0;max-height:220px;overflow-y:auto;}
+.comment-item{font-size:13px;display:flex;gap:8px;align-items:flex-start;}
+.comment-author{font-weight:600;margin-right:6px;}
+.comment-form{display:flex;gap:8px;}
+.comment-form input{flex:1;padding:9px 12px;border:1px solid var(--line);border-radius:8px;font-family:var(--sans);font-size:13px;}
+
+/* ---- messages / DM ---- */
+.chat-layout{display:flex;gap:18px;align-items:flex-start;}
+.chat-list{flex:0 0 300px;max-height:calc(100vh - 340px);min-height:420px;overflow-y:auto;padding:14px;}
+.chat-pane{flex:1;display:flex;flex-direction:column;height:calc(100vh - 340px);min-height:420px;padding:14px;}
+.conv-item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:10px 10px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:14px;
+  text-decoration:none;
+  color:var(--ink);
+}
+.conv-item:hover{background:var(--paper);}
+.conv-item.active{background:var(--paper-2);font-weight:600;}
+.conv-item-info{flex:1;min-width:0;}
+.conv-item-name{font-weight:600;font-size:14px;}
+.conv-item .conv-preview{display:block;font-size:12px;color:var(--ink-soft);font-weight:400;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.chat-header{font-weight:600;padding-bottom:12px;border-bottom:1px solid var(--line);margin-bottom:12px;}
+.chat-header-identity{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-size:16px;font-weight:600;}
+.chat-header-identity:hover{text-decoration:underline;}
+.chat-messages{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px 2px;}
+.msg-bubble{
+  max-width:70%;
+  padding:10px 15px;
+  border-radius:14px;
+  font-size:14.5px;
+  line-height:1.4;
+}
+.msg-mine{align-self:flex-end;background:var(--ink);color:var(--white);border-bottom-right-radius:4px;}
+.msg-theirs{align-self:flex-start;background:var(--paper-2);color:var(--ink);border-bottom-left-radius:4px;}
+.chat-input-row{display:flex;gap:8px;margin-top:12px;}
+.chat-input-row input{flex:1;padding:12px 14px;border:1px solid var(--line);border-radius:8px;font-family:var(--sans);font-size:14.5px;}
+@media (max-width:640px){
+  .chat-layout{flex-direction:column;}
+  .chat-list{flex:none;width:100%;max-height:220px;}
+  .chat-pane{width:100%;height:60vh;}
+}

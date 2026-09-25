@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Profil — D' CopynPrint</title>
+<link rel="stylesheet" href="../CSS/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="main-col">
+      <div class="topbar-mini" id="topbarMini"></div>
+
+      <div class="wrap">
+        <div class="ticket" id="profileCard">
+          <div class="empty-state">Memuat profil…</div>
+        </div>
+
+        <div class="ticket hidden" id="editCard">
+          <h2>Edit profil</h2>
+          <label for="displayNameInput">Nama tampilan</label>
+          <input type="text" id="displayNameInput" placeholder="Nama kamu">
+          <label for="bioInput">Bio</label>
+          <input type="text" id="bioInput" placeholder="Ceritain dikit tentang kamu">
+          <label for="waNumberInput" id="waNumberLabel">No. WhatsApp (opsional)</label>
+          <input type="text" id="waNumberInput" placeholder="Contoh: 6281234567890">
+          <p class="job-meta" style="margin:4px 0 0;">Isi awalan nomor dengan format negara tanpa tanda "+".</p>
+
+          <label id="locationLabel" style="margin-top:16px;">Lokasi (wajib lengkap sebelum upload pesanan)</label>
+          <p class="job-meta" style="margin:0 0 10px;">Bingung isinya? Pencet tombol di bawah, nyalain izin lokasi, nanti Provinsi, Kota/Kabupaten, Kecamatan, Kelurahan/Desa & Kode Pos coba diisi otomatis.</p>
+          <button type="button" class="btn btn-outline" id="detectLocationBtn" style="margin-bottom:10px;">📍 Isi otomatis dari Google Maps</button>
+          <div class="error-msg" id="locationErr"></div>
+          <div class="hidden" id="locationMapWrap" style="margin-bottom:14px;">
+            <div id="locationMap" style="width:100%;height:220px;border-radius:10px;border:1px solid var(--line);"></div>
+          </div>
+
+          <label for="locProvinceSelect">Provinsi</label>
+          <select id="locProvinceSelect">
+            <option value="">Memuat daftar provinsi…</option>
+          </select>
+          <input type="text" id="locProvinceCustomInput" class="hidden" placeholder="Tulis nama provinsi kamu" style="margin-top:8px;">
+
+          <label for="locCitySelect" style="margin-top:12px;">Kota / Kabupaten</label>
+          <select id="locCitySelect" disabled>
+            <option value="">Pilih provinsi dulu</option>
+          </select>
+          <input type="text" id="locCityCustomInput" class="hidden" placeholder="Tulis nama kota/kabupaten kamu" style="margin-top:8px;">
+
+          <label for="locDistrictSelect" style="margin-top:12px;">Kecamatan</label>
+          <select id="locDistrictSelect" disabled>
+            <option value="">Pilih kota/kabupaten dulu</option>
+          </select>
+          <input type="text" id="locDistrictCustomInput" class="hidden" placeholder="Tulis nama kecamatan kamu" style="margin-top:8px;">
+
+          <label for="locVillageSelect" style="margin-top:12px;">Kelurahan / Desa</label>
+          <select id="locVillageSelect" disabled>
+            <option value="">Pilih kecamatan dulu</option>
+          </select>
+          <input type="text" id="locVillageCustomInput" class="hidden" placeholder="Tulis nama kelurahan/desa kamu" style="margin-top:8px;">
+          <p class="job-meta" style="margin:8px 0 0;">Pesanan cuma dicocokkan antara customer & operator yang Provinsi, Kota/Kabupaten, Kecamatan, dan Kelurahan/Desa-nya sama semua.</p>
+
+          <button type="button" class="webid-toggle-btn" id="streetDetailToggleBtn">
+            <span>Detail alamat: kode pos, jalan &amp; nomor rumah, RT/RW, patokan (opsional)</span>
+            <span class="webid-toggle-arrow" id="streetDetailToggleArrow">▾</span>
+          </button>
+          <div class="webid-collapse" id="streetDetailCollapse">
+            <label for="locPostalCodeInput">Kode Pos</label>
+            <input type="text" id="locPostalCodeInput" placeholder="Contoh: 65141" inputmode="numeric" maxlength="10">
+
+            <label for="locStreetInput">Jalan &amp; nomor rumah</label>
+            <input type="text" id="locStreetInput" placeholder="Contoh: Jl. Merdeka No. 12" autocomplete="off">
+
+            <label for="locRtRwInput">RT/RW</label>
+            <input type="text" id="locRtRwInput" placeholder="Contoh: RT 03/RW 05" autocomplete="off">
+
+            <label for="locLandmarkInput">Patokan</label>
+            <input type="text" id="locLandmarkInput" placeholder="Contoh: dekat SDN 1" autocomplete="off">
+          </div>
+
+          <div class="error-msg" id="editErr"></div>
+          <button class="btn btn-primary" id="saveProfileBtn" style="margin-top:8px;">Simpan</button>
+        </div>
+
+        <div class="ticket">
+          <h2>Postingan</h2>
+          <div id="postGrid" class="post-grid"><div class="empty-state">Memuat…</div></div>
+        </div>
+
+        <!-- Fase C: riwayat print (customer) / riwayat dikerjakan + pendapatan (operator) -->
+        <div class="ticket hidden" id="historyCard">
+          <h2 id="historyTitle">Riwayat</h2>
+          <div id="earningsBox" class="hidden" style="margin-bottom:14px;"></div>
+          <div id="historyList"><div class="empty-state">Memuat…</div></div>
+        </div>
+
+        <div class="ticket hidden" id="accountCard">
+          <h2>Akun</h2>
+          <p class="sub" style="margin-bottom:14px;">Kelola sesi masuk kamu di perangkat ini.</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn btn-outline hidden" id="switchAccountBtn"><img src="../Resources/Icons/Switch.png" alt="Switch" class="icon-img"> Switch akun</button>
+            <button class="btn btn-outline" id="logoutBtn"><img src="../Resources/Icons/Logout.png" alt="Keluar" class="icon-img"> Keluar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- input file tersembunyi buat ganti foto profil -->
+  <input type="file" id="avatarInput" accept=".png,.jpg,.jpeg" class="hidden">
+
+  <!-- modal: bikin postingan baru -->
+  <div class="modal-backdrop hidden" id="newPostModal">
+    <div class="modal-box" style="max-width:440px;">
+      <h3>Postingan baru</h3>
+      <textarea id="newPostText" class="post-textarea" placeholder="Lagi ngapain, gan?" rows="3"></textarea>
+      <div id="newPostPreviewWrap" class="hidden" style="margin-top:10px;">
+        <img id="newPostPreview" style="width:100%;border-radius:8px;display:block;">
+      </div>
+      <input type="file" id="newPostImageInput" accept=".png,.jpg,.jpeg" class="hidden">
+      <button class="btn btn-outline" id="newPostAddImageBtn" style="margin-top:10px;"><img src="../Resources/Icons/Image-Add.png" alt="Gambar" class="icon-img"> Tambah gambar</button>
+      <div class="error-msg" id="newPostErr"></div>
+      <div class="modal-actions" style="margin-top:16px;">
+        <button class="btn btn-outline" id="newPostCancel">Batal</button>
+        <button class="btn btn-primary" id="newPostSubmit">Posting</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- modal: detail postingan + komentar -->
+  <div class="modal-backdrop hidden" id="postDetailModal">
+    <div class="modal-box" style="max-width:480px;max-height:88vh;overflow-y:auto;">
+      <div id="postDetailBody"></div>
+    </div>
+  </div>
+
+  <script type="module" src="../JS/profile.js"></script>
+</body>
+</html>

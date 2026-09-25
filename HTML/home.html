@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>File — D' CopynPrint</title>
+<link rel="stylesheet" href="../CSS/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="main-col">
+      <div class="topbar-mini" id="topbarMini"></div>
+
+      <div class="wrap">
+        <p class="eyebrow">Upload untuk diprint</p>
+        <h1>Kirim file ke operator print</h1>
+        <p class="sub">Pilih tipe file, upload, file otomatis dikirim ke operator print yang sedang online.</p>
+
+        <div class="ticket printer-cta-card hidden" id="printerCtaCard">
+          <h2>Kamu login sebagai Operator Print</h2>
+          <p class="sub" style="margin-bottom:14px;">Halaman ini buat customer upload file ke operator. Kalau mau lihat & kelola pesanan cetak yang masuk buat kamu, buka dashboard operator kamu di bawah.</p>
+          <a href="printer.html" class="btn btn-primary"><img src="../Resources/Icons/OPD.png" alt="" class="icon-img icon-sm"> Buka Dashboard Operator</a>
+        </div>
+
+        <div class="ticket">
+          <h2>File kamu</h2>
+
+          <div id="paperSizeWrap" class="hidden">
+            <label for="paperSizeSelect">Ukuran kertas</label>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <select id="paperSizeSelect" style="flex:1;"></select>
+              <button type="button" class="btn btn-outline btn-icon btn-icon-sm hidden" id="paperSizeManageBtn" title="Kelola pilihan ukuran (khusus developer)" aria-label="Kelola pilihan ukuran"><img src="../Resources/Icons/Settings-Dark.png" alt="" class="icon-img"></button>
+            </div>
+            <input type="text" id="paperSizeCustomInput" class="hidden" placeholder="Tulis ukuran custom, mis. 10x15 cm" style="margin-top:8px;">
+          </div>
+
+          <div class="upload-control" style="margin-top:16px;">
+            <div class="upload-split">
+              <button class="btn btn-primary" id="uploadMainBtn">Pilih file untuk diupload</button>
+              <button class="caret-btn" id="caretBtn" aria-label="Pilih tipe file">▾</button>
+            </div>
+            <div class="filetype-menu" id="filetypeMenu">
+              <button data-accept=".pdf">PDF <span class="ext">.pdf</span></button>
+              <button data-accept=".doc,.docx">Dokumen Word <span class="ext">.doc/.docx</span></button>
+              <button data-accept=".png,.jpg,.jpeg">Gambar <span class="ext">.png/.jpg/.jpeg</span></button>
+            </div>
+          </div>
+          <input type="file" id="fileInput" class="hidden">
+          <p class="helper-text" id="helperText">Pilih tipe file dulu lewat panah di samping tombol.</p>
+          <div class="progress-track hidden" id="progressTrack">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <div class="error-msg" id="errMsg"></div>
+        </div>
+
+        <div class="ticket">
+          <h2>Riwayat print</h2>
+          <div id="jobList"><div class="empty-state">Belum ada file yang diupload.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="typeWarnModal">
+    <div class="modal-box">
+      <h3>Pilih tipe file dulu</h3>
+      <p>Kamu harus pilih tipe file (PDF, Word, atau Gambar) sebelum bisa upload.</p>
+      <div class="modal-actions">
+        <button class="btn btn-outline" id="typeWarnCancel">Batal</button>
+        <button class="btn btn-primary" id="typeWarnPick">Pilih tipe</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="paperSizeModal">
+    <div class="modal-box" style="max-width:420px;">
+      <h3>Kelola pilihan ukuran kertas</h3>
+      <p class="sub" style="margin-bottom:14px;">Tambah, ubah, atau hapus pilihan ukuran kertas di dropdown. Opsi "Custom…" tidak bisa diubah atau dihapus.</p>
+      <div id="paperSizeManageList"></div>
+      <div style="display:flex;gap:8px;margin-top:14px;">
+        <input type="text" id="paperSizeNewInput" placeholder="Nama ukuran baru, mis. B5" style="flex:1;">
+        <button type="button" class="btn btn-primary" id="paperSizeAddBtn"><img src="../Resources/Icons/Plus.png" alt="" class="icon-img icon-sm"> Tambah</button>
+      </div>
+      <div class="error-msg" id="paperSizeManageErr"></div>
+      <div class="modal-actions" style="margin-top:16px;">
+        <button type="button" class="btn btn-outline" id="paperSizeManageClose">Selesai</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="../JS/home.js"></script>
+</body>
+</html>
